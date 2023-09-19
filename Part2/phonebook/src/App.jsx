@@ -1,15 +1,20 @@
 /* eslint-disable react/jsx-key */
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import Search from "./components/Search";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", phone: "215-999-8888" },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setSearch] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/persons")
+      .then((response) => setPersons(response.data));
+  }, []);
 
   const addNameAndNumber = (event) => {
     event.preventDefault();
