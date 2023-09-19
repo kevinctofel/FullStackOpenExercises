@@ -11,6 +11,7 @@ const App = () => {
   const [newSearch, setSearch] = useState("");
 
   useEffect(() => {
+    // hook to get data from json file and render it
     axios
       .get("http://localhost:3001/persons")
       .then((response) => setPersons(response.data));
