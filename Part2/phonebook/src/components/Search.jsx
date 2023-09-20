@@ -10,7 +10,7 @@ const Search = (props) => {
           eachPerson.name.toLowerCase().includes(props.props[1].toLowerCase())
         )
         .map((person) => (
-          <Output props={person} />
+          <Output key={person.id} props={person} />
         ))}
     </div>
   );

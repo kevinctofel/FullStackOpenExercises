@@ -32,7 +32,10 @@ const App = () => {
       setNewName("");
       setNewNumber("");
     } else {
-      setPersons(persons.concat(personObject));
+      // update the server with new person object
+      axios
+        .post("http://localhost:3001/persons", personObject)
+        .then((response) => setPersons(persons.concat(response.data)));
       setNewName("");
       setNewNumber("");
     }
