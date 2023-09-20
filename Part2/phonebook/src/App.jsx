@@ -21,7 +21,7 @@ const App = () => {
     event.preventDefault();
     const personObject = {
       name: newName,
-      phone: newNumber,
+      number: newNumber,
     };
     let names = persons.map((obj) => obj.name);
     const hasDuplicateNames = names.includes(newName);

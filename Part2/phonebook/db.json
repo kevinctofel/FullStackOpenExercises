@@ -21,44 +21,9 @@
       "id": 4
     },
     {
-      "name": "Kevin",
-      "phone": "",
+      "name": "kevin",
+      "number": "2523452",
       "id": 5
-    },
-    {
-      "name": "Norm",
-      "phone": "",
-      "id": 6
-    },
-    {
-      "name": "Barb",
-      "phone": "",
-      "id": 7
-    },
-    {
-      "name": "George",
-      "phone": "",
-      "id": 8
-    },
-    {
-      "name": "Devin",
-      "phone": "",
-      "id": 9
-    },
-    {
-      "name": "Fred",
-      "phone": "",
-      "id": 10
-    },
-    {
-      "name": "Bob",
-      "phone": "",
-      "id": 11
-    },
-    {
-      "name": "rex",
-      "phone": "",
-      "id": 12
     }
   ]
 }
