@@ -2,12 +2,12 @@
 import Name from "./Name";
 
 const Output = (props) => {
-  // console.log("Output got ", props);
+  console.log("Output got ", props);
   return (
     <Name
       key={props.props.name}
       name={props.props.name}
-      phone={props.props.phone}
+      phone={props.props.number}
     />
   );
 };
