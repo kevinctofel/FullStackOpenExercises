@@ -12,7 +12,7 @@ const App = () => {
 
   useEffect(() => {
     // hook to get data from json file and render it
-    NoteService.getNotes().then((response) => setPersons(response.data));
+    NoteService.getPeople().then((response) => setPersons(response.data));
   }, []);
 
   const addNameAndNumber = (event) => {

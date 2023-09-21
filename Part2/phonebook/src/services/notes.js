@@ -1,15 +1,20 @@
 import axios from "axios";
 const baseUrl = "http://localhost:3001/persons";
 
-const getNotes = () => {
+const getPeople = () => {
   return axios.get(baseUrl);
 };
-const createNote = (newObject) => {
+const createPerson = (newObject) => {
   return axios.post(baseUrl, newObject);
 };
 
-const updateNote = (id, newObject) => {
+const deletePerson = (id) => {
+  console.log(`NotesServices got `, id);
+  return console.log(`I want to delete the note with an ID of ${id}`);
+};
+
+const updatePerson = (id, newObject) => {
   return axios.put(`${baseUrl}/${id}`, newObject);
 };
 
-export default { getNotes, createNote, updateNote };
+export default { getPeople, createPerson, deletePerson, updatePerson };
