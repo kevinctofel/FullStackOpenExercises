@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-key */
 import { useState, useEffect } from "react";
 import axios from "axios";
-
 import Search from "./components/Search";
+import NoteService from "../src/services/notes";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,9 +12,7 @@ const App = () => {
 
   useEffect(() => {
     // hook to get data from json file and render it
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => setPersons(response.data));
+    NoteService.getNotes().then((response) => setPersons(response.data));
   }, []);
 
   const addNameAndNumber = (event) => {
