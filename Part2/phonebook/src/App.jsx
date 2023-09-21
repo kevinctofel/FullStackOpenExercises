@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-key */
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Search from "./components/Search";
 import NoteService from "../src/services/notes";
+// import Name from "./components/Name";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
