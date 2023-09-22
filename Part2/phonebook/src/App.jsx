@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-key */
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Search from "./components/Search";
-import NoteService from "../src/services/notes";
+import NoteServices from "../src/services/notes";
 // import Name from "./components/Name";
 
 const App = () => {
@@ -14,7 +14,7 @@ const App = () => {
 
   useEffect(() => {
     // hook to get data from json file and render it
-    NoteService.getPeople().then((response) => setPersons(response.data));
+    NoteServices.getPeople().then((response) => setPersons(response.data));
   }, []);
 
   const addNameAndNumber = (event) => {
@@ -39,6 +39,57 @@ const App = () => {
       setNewName("");
       setNewNumber("");
     }
+  };
+
+  const Search = (props) => {
+    console.log("Search got : ", props);
+
+    return (
+      <div>
+        {props.props[0]
+          .filter((eachPerson) =>
+            eachPerson.name.toLowerCase().includes(props.props[1].toLowerCase())
+          )
+          .map((person) => (
+            <Output key={person.id} props={person} />
+          ))}
+      </div>
+    );
+  };
+
+  const Output = (props) => {
+    // console.log("Output got ", props);
+    return (
+      <Name
+        id={props.props.id}
+        name={props.props.name}
+        phone={props.props.number}
+      />
+    );
+  };
+
+  const Name = (props) => {
+    const deleteEntry = (event) => {
+      event.preventDefault();
+      console.log(`Name got`, props);
+      if (
+        confirm(`Do you want to delete the entry for ${props.name}?`) === true
+      ) {
+        NoteServices.deletePerson(props).then(
+          NoteServices.getPeople().then((response) => {
+            console.log(response.data);
+            setPersons(response.data);
+          })
+        );
+      }
+    };
+    return (
+      <form onSubmit={deleteEntry}>
+        <div>
+          {props.name} {props.phone} <button type="submit">Delete</button>
+        </div>
+      </form>
+    );
   };
 
   const handleNameChange = (event) => {

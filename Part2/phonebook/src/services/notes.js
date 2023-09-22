@@ -9,10 +9,8 @@ const createPerson = (newObject) => {
 };
 
 const deletePerson = (entry) => {
-  // console.log(`NotesServices got `, entry);
-  confirm(`Do you want to delete the entry for ${entry.name}?`)
-    ? axios.delete(`${baseUrl}/${entry.id}`)
-    : console.log("We won't delete the entry.");
+  axios.delete(`${baseUrl}/${entry.id}`);
+  return axios.get(baseUrl);
 };
 
 const updatePerson = (id, newObject) => {
