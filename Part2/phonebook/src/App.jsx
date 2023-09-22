@@ -72,8 +72,16 @@ const App = () => {
     const deleteEntry = (event) => {
       event.preventDefault();
       console.log(`Name got`, props);
-      NoteServices.deletePerson(props);
-      NoteServices.getPeople().then((response) => setPersons(response.data));
+      if (
+        confirm(`Do you want to delete the entry for ${props.name}?`) === true
+      ) {
+        NoteServices.deletePerson(props).then(
+          NoteServices.getPeople().then((response) => {
+            console.log(response.data);
+            setPersons(response.data);
+          })
+        );
+      }
     };
     return (
       <form onSubmit={deleteEntry}>
