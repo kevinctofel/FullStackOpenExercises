@@ -28,7 +28,6 @@ const App = () => {
 
     if (hasDuplicateNames) {
       alert(`${newName} is already added to Phonebook`);
-      // console.log("Duplicate name!");
       setNewName("");
       setNewNumber("");
     } else {

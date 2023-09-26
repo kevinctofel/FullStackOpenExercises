@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import NoteServices from "../services/notes";
+import "../index.css";
 
 const Name = (props) => {
   const deleteEntry = (event) => {
@@ -9,7 +10,7 @@ const Name = (props) => {
   };
   return (
     <form onSubmit={deleteEntry}>
-      <div>
+      <div className="note">
         {props.name} {props.phone} <button type="submit">Delete</button>
       </div>
     </form>
