@@ -1,6 +1,12 @@
 /* eslint-disable react/prop-types */
 import NoteServices from "../services/notes";
-import "../index.css";
+
+const Note = () => {
+  const noteStyle = {
+    color: 'red',
+    fontStyle: 'italic',
+    fontSize: 16
+  }
 
 const Name = (props) => {
   const deleteEntry = (event) => {
@@ -10,8 +16,8 @@ const Name = (props) => {
   };
   return (
     <form onSubmit={deleteEntry}>
-      <div className="note">
-        {props.name} {props.phone} <button type="submit">Delete</button>
+      <div>
+        <li style="noteStyle">{props.name} {props.phone} <button type="submit">Delete</button></li>
       </div>
     </form>
   );
