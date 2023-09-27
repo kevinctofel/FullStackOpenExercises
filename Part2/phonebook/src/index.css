@@ -1,5 +1,5 @@
 h2 {
-  color: green;
+  color: rgb(65, 134, 151);
   font-style: italic;
 }
 
@@ -7,10 +7,17 @@ h2 {
   color: red;
 }
 
-.error {
-  color: red;
-  background: lightgrey;
-  font-size: 20px;
+li {
+  color: rgb(211, 16, 16);
+  padding-top: 3px;
+  font-size: 15px;
+}
+
+.confirm {
+  color: black;
+  background: rgb(100, 167, 105);
+  font-size: 12px;
+  font-weight: bolder;
   border-style: solid;
   border-radius: 5px;
   padding: 10px;

@@ -4,13 +4,21 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import NoteServices from "../src/services/notes";
-// import Name from "./components/Name";
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null;
+  }
+
+  return <div className="confirm">{message}</div>;
+};
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setSearch] = useState("");
+  const [confirmMessage, setConfirmMessage] = useState(null);
 
   useEffect(() => {
     // hook to get data from json file and render it
@@ -34,10 +42,18 @@ const App = () => {
       // update the server with new person object
       axios
         .post("http://localhost:3001/persons", personObject)
-        .then((response) => setPersons(persons.concat(response.data)));
-      setNewName("");
-      setNewNumber("");
+        .then((response) => setPersons(persons.concat(response.data)))
+        .then(() =>
+          setConfirmMessage(`${newName} successfully added to the server.`)
+        )
+        .then(
+          setTimeout(() => {
+            setConfirmMessage(null);
+          }, 5000)
+        );
     }
+    setNewName("");
+    setNewNumber("");
   };
 
   const Search = (props) => {
@@ -110,12 +126,15 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <div>
+        <Notification message={confirmMessage} />
+      </div>
+      <div>
         <h3>
           Filter by name: <input onChange={handleSearch} />
         </h3>
       </div>
       <div>
-        <h2>Add new entry: </h2>
+        <h2>Add new entry:</h2>
         <form onSubmit={addNameAndNumber}>
           <div>
             Name: <input onChange={handleNameChange} value={newName} />
