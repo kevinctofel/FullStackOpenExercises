@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
+const morgan = require("morgan");
+
+const logger = morgan("tiny");
 app.use(express.json()); // needed for parsing JSON
+app.use(logger);
 
 const generateId = () => {
   const max = 10000;
@@ -101,6 +105,6 @@ app.get("/info", (request, response) => {
   );
 });
 
-const PORT = 3001;
+const PORT = 3000;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
