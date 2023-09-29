@@ -3,8 +3,9 @@ const app = express();
 app.use(express.json()); // needed for parsing JSON
 
 const generateId = () => {
-  const maxId = people.length > 0 ? Math.max(...people.map((n) => n.id)) : 0;
-  return maxId + 1;
+  const max = 10000;
+  const min = 1;
+  return Math.floor(Math.random() * (max - min) + min);
 };
 
 let people = [
@@ -74,6 +75,7 @@ app.post("/api/people", (request, response) => {
 
   people = people.concat(person);
   response.json(person);
+  console.log(person);
 });
 
 app.get("/info", (request, response) => {
