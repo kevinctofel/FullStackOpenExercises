@@ -2,9 +2,15 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 
-const logger = morgan("tiny");
+morgan.token("body", function (req, res) {
+  return JSON.stringify(req.body);
+}); // token to log request body
+
+const logger = morgan(
+  ":method :url :status :res[content-length] - :response-time ms :body"
+);
 app.use(express.json()); // needed for parsing JSON
-app.use(logger);
+app.use(logger); // needed for logging server responses
 
 const generateId = () => {
   const max = 10000;
@@ -67,7 +73,7 @@ app.post("/api/people", (request, response) => {
 
   const body = request.body;
   const hasDuplicateNames = names.includes(body.name);
-  console.log(request.body);
+  // console.log(request.body);
 
   if (!body.name) {
     return response.status(400).json({
