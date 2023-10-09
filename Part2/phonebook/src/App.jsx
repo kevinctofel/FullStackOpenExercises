@@ -41,7 +41,7 @@ const App = () => {
     } else {
       // update the server with new person object
       axios
-        .post("http://localhost:3001/persons", personObject)
+        .post("http://localhost:3001/people", personObject)
         .then((response) => setPersons(persons.concat(response.data)))
         .then(() =>
           setConfirmMessage(`${newName} successfully added to the server.`)
