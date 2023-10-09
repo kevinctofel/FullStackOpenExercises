@@ -11,6 +11,7 @@ const logger = morgan(
 );
 app.use(express.json()); // needed for parsing JSON
 app.use(logger); // needed for logging server responses
+app.use(express.static("dist"));
 
 const generateId = () => {
   const max = 10000;
@@ -41,9 +42,9 @@ let people = [
   },
 ];
 
-app.get("/", (request, response) => {
-  response.send("<h1>Hello World!</h1>");
-});
+// app.get("/", (request, response) => {
+//   response.send("<h1>Hello World!</h1>");
+// });
 
 app.get("/api/people", (request, response) => {
   response.json(people);
