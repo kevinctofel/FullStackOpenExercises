@@ -1,6 +1,36 @@
+require("dotenv").config();
+const Person = require("./models/people");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+// Adding mongoDB
+const mongoose = require("mongoose");
+const password = process.argv[2];
+const name = process.argv[3];
+const number = process.argv[4];
+
+const url = process.env.MDB_URL;
+
+mongoose.set("strictQuery", false);
+mongoose.connect(url);
+
+// const personSchema = new mongoose.Schema({
+//   name: String,
+//   number: String,
+// });
+
+// personSchema.set("toJSON", {
+//   // remove unneeded db fields
+//   transform: (document, returnedObject) => {
+//     returnedObject.id = returnedObject._id.toString();
+//     delete returnedObject._id;
+//     delete returnedObject.__v;
+//     delete returnedObject.id;
+//   },
+// });
+
+// const Person = mongoose.model("Person", personSchema);
+// End of mongoDB configuration
 
 morgan.token("body", function (req, res) {
   return JSON.stringify(req.body);
@@ -47,61 +77,45 @@ let people = [
 // });
 
 app.get("/api/people", (request, response) => {
-  response.json(people);
+  console.log("Getting people from mongo");
+  Person.find({}).then((people) => {
+    response.json(people);
+  });
 });
 
 app.get("/api/people/:id", (request, response) => {
-  const id = Number(request.params.id);
-  const person = people.find((person) => person.id === id);
-
-  if (person) {
-    response.json(person);
-  } else {
+  try {
+    Person.findById(request.params.id).then((person) => {
+      response.json(person);
+    });
+  } catch {
     response.status(404).end("That person was not found.");
   }
 });
 
 app.delete("/api/people/:id", (request, response) => {
-  const id = Number(request.params.id);
-  people = people.filter((person) => person.id !== id);
+  const personToRemove = Person.findById(request.params.id);
 
-  response.status(204).end("That person was removed from the phone book.");
+  if (personToRemove) {
+    console.log(`Found ${personToRemove}`);
+    Person.deleteOne(personToRemove.id).then(response.json(personToRemove.id));
+  } else {
+    response.status(404).end("That person was not found.");
+  }
 });
 
 // Implement error handling for creating new entries.
 app.post("/api/people", (request, response) => {
-  let names = people.map((obj) => obj.name);
-
   const body = request.body;
-  const hasDuplicateNames = names.includes(body.name);
-  // console.log(request.body);
 
-  if (!body.name) {
-    return response.status(400).json({
-      error: "Name is missing",
-    });
-  }
-
-  if (!body.number) {
-    return response.status(400).json({
-      error: "Number is missing",
-    });
-  }
-
-  if (hasDuplicateNames) {
-    return response.status(400).json({
-      error: `Names must be unique. ${body.name} is already in the phone book.`,
-    });
-  }
-
-  const person = {
-    id: generateId(),
+  const person = new Person({
     name: body.name,
     number: body.number,
-  };
+  });
 
-  people = people.concat(person);
-  response.json(person);
+  person.save().then((savedPerson) => {
+    response.json(savedPerson);
+  });
 });
 
 app.get("/info", (request, response) => {
