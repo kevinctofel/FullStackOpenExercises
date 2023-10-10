@@ -94,7 +94,7 @@ app.get("/api/people/:id", (request, response) => {
 });
 
 app.delete("/api/people/:id", (request, response) => {
-  const personToRemove = Person.findById(request.params.id);
+  const personToRemove = Person.findByIdAndRemove(request.params.id);
 
   if (personToRemove) {
     console.log(`Found ${personToRemove}`);
