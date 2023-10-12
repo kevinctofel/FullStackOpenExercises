@@ -70,7 +70,6 @@ app.post("/api/people", (request, response) => {
 
 app.get("/info", async (request, response) => {
   let entries = await Person.find().estimatedDocumentCount();
-  console.log(entries);
   let requestTime = new Date();
   response.send(
     `The phone book has information for ${entries} people.<br/><br/>${requestTime}`
