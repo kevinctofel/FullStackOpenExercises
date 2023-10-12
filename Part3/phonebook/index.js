@@ -94,14 +94,9 @@ app.get("/api/people/:id", (request, response) => {
 });
 
 app.delete("/api/people/:id", (request, response) => {
-  const personToRemove = Person.findByIdAndRemove(request.params.id);
-
-  if (personToRemove) {
-    console.log(`Found ${personToRemove}`);
-    Person.deleteOne(personToRemove.id).then(response.json(personToRemove.id));
-  } else {
-    response.status(404).end("That person was not found.");
-  }
+  Person.findByIdAndRemove(request.params.id).then((result) => {
+    response.status(204).end();
+  });
 });
 
 // Implement error handling for creating new entries.
