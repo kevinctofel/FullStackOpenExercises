@@ -72,10 +72,6 @@ let people = [
   },
 ];
 
-// app.get("/", (request, response) => {
-//   response.send("<h1>Hello World!</h1>");
-// });
-
 app.get("/api/people", (request, response) => {
   console.log("Getting people from mongo");
   Person.find({}).then((people) => {
@@ -113,11 +109,12 @@ app.post("/api/people", (request, response) => {
   });
 });
 
-app.get("/info", (request, response) => {
-  let entries = people.length;
+app.get("/info", async (request, response) => {
+  let entries = await Person.find().estimatedDocumentCount();
+  console.log(entries);
   let requestTime = new Date();
   response.send(
-    `The phonebook has information for ${entries} people.<br/><br/>${requestTime}`
+    `The phone book has information for ${entries} people.<br/><br/>${requestTime}`
   );
 });
 
