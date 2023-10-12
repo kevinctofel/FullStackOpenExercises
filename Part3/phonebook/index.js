@@ -3,7 +3,6 @@ const Person = require("./models/people");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-// Adding mongoDB
 const mongoose = require("mongoose");
 const password = process.argv[2];
 const name = process.argv[3];
@@ -13,24 +12,6 @@ const url = process.env.MDB_URL;
 
 mongoose.set("strictQuery", false);
 mongoose.connect(url);
-
-// const personSchema = new mongoose.Schema({
-//   name: String,
-//   number: String,
-// });
-
-// personSchema.set("toJSON", {
-//   // remove unneeded db fields
-//   transform: (document, returnedObject) => {
-//     returnedObject.id = returnedObject._id.toString();
-//     delete returnedObject._id;
-//     delete returnedObject.__v;
-//     delete returnedObject.id;
-//   },
-// });
-
-// const Person = mongoose.model("Person", personSchema);
-// End of mongoDB configuration
 
 morgan.token("body", function (req, res) {
   return JSON.stringify(req.body);
@@ -43,34 +24,12 @@ app.use(express.json()); // needed for parsing JSON
 app.use(logger); // needed for logging server responses
 app.use(express.static("dist"));
 
-const generateId = () => {
-  const max = 10000;
-  const min = 1;
-  return Math.floor(Math.random() * (max - min) + min);
-};
-
-let people = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
+// NOT NEEDED as Mongo creates unique IDs
+// const generateId = () => {
+//   const max = 10000;
+//   const min = 1;
+//   return Math.floor(Math.random() * (max - min) + min);
+// };
 
 app.get("/api/people", (request, response) => {
   console.log("Getting people from mongo");
