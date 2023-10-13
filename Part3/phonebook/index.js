@@ -58,14 +58,21 @@ app.delete("/api/people/:id", (request, response) => {
 app.post("/api/people", (request, response) => {
   const body = request.body;
 
-  const person = new Person({
-    name: body.name,
-    number: body.number,
-  });
+  // Check for missing name / number
+  if (body.name === "") {
+    return response.status(400).json({ error: "A name is required." });
+  } else if (body.number === "") {
+    return response.status(400).json({ error: "A number is required." });
+  } else {
+    const person = new Person({
+      name: body.name,
+      number: body.number,
+    });
 
-  person.save().then((savedPerson) => {
-    response.json(savedPerson);
-  });
+    person.save().then((savedPerson) => {
+      response.json(savedPerson);
+    });
+  }
 });
 
 app.get("/info", async (request, response) => {
