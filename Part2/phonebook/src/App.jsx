@@ -101,7 +101,7 @@ const App = () => {
     return (
       <form onSubmit={deleteEntry}>
         <div>
-          {props.name} {props.phone} <button type="submit">Delete</button>
+          <button type="submit">Delete</button> {props.name} {props.phone}
         </div>
       </form>
     );
