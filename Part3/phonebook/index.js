@@ -38,6 +38,7 @@ app.get("/api/people", (request, response) => {
   });
 });
 
+// No error handling but API works to display a single record
 app.get("/api/people/:id", (request, response) => {
   try {
     Person.findById(request.params.id).then((person) => {
