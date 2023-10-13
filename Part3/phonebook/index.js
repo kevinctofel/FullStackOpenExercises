@@ -68,7 +68,7 @@ app.post("/api/people", (request, response) => {
       name: body.name,
       number: body.number,
     });
-
+    // Only save entry to database if there's a name and number
     person.save().then((savedPerson) => {
       response.json(savedPerson);
     });
