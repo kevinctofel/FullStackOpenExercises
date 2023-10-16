@@ -39,21 +39,39 @@ const App = () => {
       setNewName("");
       setNewNumber("");
     } else {
-      // update the server with new person object
-      axios
-        .post("https://solitary-mountain-5684.fly.dev/api/people", personObject)
-        .then((response) => setPersons(persons.concat(response.data)))
-        .then(() =>
-          setConfirmMessage(`${newName} successfully added to the server.`)
+      NoteServices.createPerson(personObject)
+        .then(
+          NoteServices.getPeople().then((response) => setPersons(response.data))
         )
+        .then(() => {
+          setConfirmMessage(`${newName} successfully added to the server.`);
+          setNewName("");
+          setNewNumber("");
+        })
         .then(
           setTimeout(() => {
             setConfirmMessage(null);
           }, 5000)
-        );
+        )
+        .catch((error) => {
+          setConfirmMessage(error.response.data.error);
+          setNewName("");
+          setNewNumber("");
+        });
+      // update the server with new person object
+      //   axios
+      //     .post("https://solitary-mountain-5684.fly.dev/api/people", personObject)
+      //     .then((response) => setPersons(persons.concat(response.data)))
+      //     .then(() =>
+      //       setConfirmMessage(`${newName} successfully added to the server.`)
+      //     )
+      //     .then(
+      //       setTimeout(() => {
+      //         setConfirmMessage(null);
+      //       }, 5000)
+      //     );
+      // }
     }
-    setNewName("");
-    setNewNumber("");
   };
 
   const Search = (props) => {
