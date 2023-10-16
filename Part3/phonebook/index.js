@@ -40,13 +40,18 @@ app.get("/api/people", (request, response) => {
 
 // No error handling but API works to display a single record
 app.get("/api/people/:id", (request, response) => {
-  try {
-    Person.findById(request.params.id).then((person) => {
-      response.json(person);
+  Person.findById(request.params.id)
+    .then((person) => {
+      if (person) {
+        response.json(person);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      response.status(400).send({ error: "Malformatted ID" });
     });
-  } catch {
-    response.status(404).end("That person was not found.");
-  }
 });
 
 app.delete("/api/people/:id", (request, response) => {
