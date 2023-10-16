@@ -51,24 +51,19 @@ app.delete("/api/people/:id", (request, response) => {
 });
 
 // Implement error handling for creating new entries.
-app.post("/api/people", (request, response) => {
+app.post("/api/people", (request, response, next) => {
   const body = request.body;
-
-  // Check for missing name / number
-  if (body.name === "") {
-    return response.status(400).json({ error: "A name is required." });
-  } else if (body.number === "") {
-    return response.status(400).json({ error: "A number is required." });
-  } else {
-    const person = new Person({
-      name: body.name,
-      number: body.number,
-    });
-    // Only save entry to database if there's a name and number
-    person.save().then((savedPerson) => {
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  });
+  // Only save entry to database if there's a name and number
+  person
+    .save()
+    .then((savedPerson) => {
       response.json(savedPerson);
-    });
-  }
+    })
+    .catch((error) => next(error));
 });
 
 app.get("/info", async (request, response) => {
@@ -84,6 +79,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
   }
 
   next(error);
