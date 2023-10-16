@@ -93,6 +93,7 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
 };
 
+// handler of requests outside of expected parameters
 app.use(errorHandler);
 // handler of requests with unknown endpoint
 app.use(unknownEndpoint);
