@@ -24,13 +24,6 @@ app.use(express.json()); // needed for parsing JSON
 app.use(logger); // needed for logging server responses
 app.use(express.static("dist"));
 
-// NOT NEEDED as Mongo creates unique IDs
-// const generateId = () => {
-//   const max = 10000;
-//   const min = 1;
-//   return Math.floor(Math.random() * (max - min) + min);
-// };
-
 app.get("/api/people", (request, response) => {
   console.log("Getting people from mongo");
   Person.find({}).then((people) => {
@@ -48,10 +41,7 @@ app.get("/api/people/:id", (request, response) => {
         response.status(404).end();
       }
     })
-    .catch((error) => {
-      console.log(error);
-      response.status(400).send({ error: "Malformatted ID" });
-    });
+    .catch((error) => next(error));
 });
 
 app.delete("/api/people/:id", (request, response) => {
@@ -88,6 +78,24 @@ app.get("/info", async (request, response) => {
     `The phone book has information for ${entries} people.<br/><br/>${requestTime}`
   );
 });
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  }
+
+  next(error);
+};
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
+app.use(errorHandler);
+// handler of requests with unknown endpoint
+app.use(unknownEndpoint);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT);
