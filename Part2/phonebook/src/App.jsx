@@ -2,7 +2,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-key */
 import { useState, useEffect } from "react";
-import axios from "axios";
 import NoteServices from "../src/services/notes";
 
 const Notification = ({ message }) => {
